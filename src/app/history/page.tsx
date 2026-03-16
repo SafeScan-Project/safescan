@@ -1,5 +1,3 @@
-
-
 'use client';
 import { useEffect, useState } from 'react';
 import { useSession } from 'next-auth/react';
@@ -117,10 +115,12 @@ export default function HistoryPage() {
                         autoFocus
                       />
                       <button
+                        type="button"
                         className="text-green-700 text-xs underline"
                         onClick={() => handleEditSave(scan.id)}
                       >Save</button>
                       <button
+                        type="button"
                         className="text-gray-500 text-xs underline"
                         onClick={() => setEditingId(null)}
                       >Cancel</button>
@@ -129,6 +129,7 @@ export default function HistoryPage() {
                     <div className="flex items-center">
                       <span className="text-xs text-gray-700 mr-2">{scan.notes || <span className="italic text-gray-400">(no note)</span>}</span>
                       <button
+                        type="button"
                         className="text-blue-600 text-xs underline"
                         onClick={() => handleEdit(scan.id, scan.notes)}
                       >Edit</button>
@@ -137,6 +138,7 @@ export default function HistoryPage() {
                 </td>
                 <td className="border p-2 text-center">
                   <button
+                    type="button"
                     onClick={() => handleDelete(scan.id)}
                     className="text-red-600 underline text-sm"
                   >

@@ -1,7 +1,14 @@
-import NextAuth from "next-auth";
+/**
+ * Adds `role` to the NextAuth User and Session type declarations.
+ * Without this, TypeScript does not know session.user.role exists and
+ * the admin export route would not compile.
+ */
 
-declare module "next-auth" {
+import NextAuth from 'next-auth';
+
+declare module 'next-auth' {
   interface User {
+    role?: string | null;
     displayName?: string | null;
     profilePicture?: string | null;
     bio?: string | null;
@@ -12,6 +19,7 @@ declare module "next-auth" {
       email?: string;
       name?: string | null;
       image?: string | null;
+      role?: string | null;
       displayName?: string | null;
       profilePicture?: string | null;
       bio?: string | null;
