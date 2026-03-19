@@ -1,0 +1,42 @@
+// SQLite database for development
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           String @id @default(cuid())
+  email        String @unique
+  passwordHash String
+  role         String @default("USER")
+  displayName  String?
+  profilePicture String?
+  bio          String?
+  createdAt    DateTime @default(now())
+  scans        Scan[]
+  passwordResetTokens PasswordResetToken[]
+}
+
+model Scan {
+  id        String   @id @default(cuid())
+  url       String
+  result    String // JSON stringified result
+  createdAt DateTime @default(now())
+  notes     String? // User-provided label or note
+  user      User?    @relation(fields: [userId], references: [id])
+  userId    String?
+}
+
+model PasswordResetToken {
+  id        String   @id @default(cuid())
+  user      User     @relation(fields: [userId], references: [id])
+  userId    String
+  token     String   @unique
+  expires   DateTime
+  createdAt DateTime @default(now())
+}
