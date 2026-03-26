@@ -1,4 +1,5 @@
-/** biome-ignore-all lint/suspicious/noArrayIndexKey: <explanation> */
+/** biome-ignore-all lint/suspicious/noArrayIndexKey: ... */
+/** biome-ignore-all lint/a11y/noSvgWithoutTitle: ... */
 
 "use client";
 
@@ -108,11 +109,14 @@ export default function Home() {
     };
 
     return (
-        <div className="home-page max-w-2xl mx-auto">
+        <div
+            className="home-page max-w-2xl mx-auto
+                dark:bg-[#242018] dark:border-[#3a342a] dark:text-[#f0ead8]"
+        >
+            {" "}
             <h2 className="home-title text-2xl font-bold mb-4">
                 Enter a website URL to scan
             </h2>
-
             <form onSubmit={handleSubmit} className="home-form space-y-4">
                 <input
                     type="url"
@@ -144,7 +148,6 @@ export default function Home() {
                     {loading ? "Scanning…" : "Scan"}
                 </button>
             </form>
-
             {/* Summary bar */}
             {summary.length > 0 && (
                 <div className="home-summary mt-4 flex space-x-4 text-sm bg-gray-100 p-2 rounded">
@@ -160,24 +163,24 @@ export default function Home() {
                             className="inline mr-1 text-amber-500"
                             aria-hidden
                         />
-                        {summary.filter((s) => s.level === "warning").length} warning
+                        {summary.filter((s) => s.level === "warning").length}{" "}
+                        warning
                     </span>
                     <span className="home-summary-issue text-red-700">
                         <FaTimesCircle
                             className="inline mr-1 text-red-500"
                             aria-hidden
                         />
-                        {summary.filter((s) => s.level === "issue").length} issue
+                        {summary.filter((s) => s.level === "issue").length}{" "}
+                        issue
                     </span>
                 </div>
             )}
-
             {error && (
                 <div className="home-error mt-6 p-4 bg-red-100 border border-red-400 text-red-700 rounded">
                     {error}
                 </div>
             )}
-
             {loading && (
                 <div className="home-loading mt-6 flex items-center space-x-2 text-blue-600">
                     <svg
@@ -207,12 +210,11 @@ export default function Home() {
                     </span>
                 </div>
             )}
-
             {result && (
                 <div className="home-results mt-6 space-y-4">
                     {/* Header checks */}
                     <div className="home-headers-card p-4 bg-white border rounded">
-                        <h3 className="home-headers-title text-lg font-bold text-black mb-3">
+                        <h3 className="text-lg font-bold text-black dark:text-white mb-3">
                             Security headers
                         </h3>
                         <ul className="home-headers-list space-y-2">
@@ -221,14 +223,16 @@ export default function Home() {
                                     key={idx}
                                     className={`home-headers-item text-sm ${
                                         item.level === "pass"
-                                                                                        ? "home-headers-item-pass text-green-700"
+                                            ? "home-headers-item-pass text-green-700"
                                             : item.level === "warning"
-                                                                                            ? "home-headers-item-warning text-amber-700"
-                                                                                            : "home-headers-item-issue text-red-700"
+                                              ? "home-headers-item-warning text-amber-700"
+                                              : "home-headers-item-issue text-red-700"
                                     }`}
                                 >
                                     <div className="flex items-center gap-2">
-                                        <span className="inline-flex">{item.icon}</span>
+                                        <span className="inline-flex">
+                                            {item.icon}
+                                        </span>
                                         <span className="font-medium">
                                             {item.text}
                                         </span>
@@ -283,8 +287,8 @@ export default function Home() {
                                         className="inline mr-1 text-green-500"
                                         aria-hidden
                                     />
-                                    No sensitive paths responded with HTTP
-                                    200 or 403.
+                                    No sensitive paths responded with HTTP 200
+                                    or 403.
                                 </p>
                             ) : (
                                 <>
@@ -365,7 +369,11 @@ function buildSummary(data: ScanResult): SummaryItem[] {
     const checks: Array<[string, ReactNode, string, string]> = [
         [
             "content-security-policy",
-            <FaShieldAlt className="text-violet-500" aria-hidden key="csp-icon" />,
+            <FaShieldAlt
+                className="text-violet-500"
+                aria-hidden
+                key="csp-icon"
+            />,
             "CSP header present",
             "CSP header missing",
         ],

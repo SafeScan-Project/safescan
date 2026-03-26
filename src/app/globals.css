@@ -1,58 +1,57 @@
+/* globals.css */
 @import "tailwindcss";
+
+/* ─── Tell Tailwind v4 that "dark:" means .dark is on an ancestor ─── */
+@variant dark (&:where(.dark, .dark *));
+
+/* ─── Design tokens — one source of truth for both themes ─── */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+    --bg-page: #fff8ef;
+    --bg-surface: #fffdf8;
+    --bg-card: #ffffff;
+    --border-color: #f3e8cf;
+    --text-primary: #1f2937;
+    --text-secondary: #4b5563;
+    --shadow-warm: rgba(146, 64, 14, 0.08);
 }
 
-
-:root {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+.dark {
+    --bg-page: #0f0e0c;
+    --bg-surface: #1a1814;
+    --bg-card: #242018;
+    --border-color: #3a342a;
+    --text-primary: #f0ead8;
+    --text-secondary: #a89880;
+    --shadow-warm: rgba(0, 0, 0, 0.4);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
-body {
-  background: #ffffff;
-  color: #171717;
-  font-family: Arial, Helvetica, sans-serif;
-}
-
-/*
-  Centralized style hooks for app pages and shared UI sections.
-  Add your custom CSS rules in the blocks below.
-*/
-
-/* App shell */
+/* ─── App shell — use the tokens, not raw hex ─── */
 .app-html {
-  background: #fff8ef;
+    background: var(--bg-page);
 }
 
 .app-body {
-  position: relative;
-  min-height: 100vh;
-  background:
-    radial-gradient(circle at 12% 8%, rgba(251, 191, 36, 0.16), transparent 30%),
-    radial-gradient(circle at 88% 16%, rgba(249, 115, 22, 0.14), transparent 24%),
-    linear-gradient(180deg, #fff9f2 0%, #fff7ed 52%, #fffbf5 100%);
-  color: #1f2937;
+    position: relative;
+    min-height: 100vh;
+    background: var(--bg-page);
+    color: var(--text-primary);
+    transition: background 0.2s, color 0.2s;
 }
 
-.app-main {
-  position: relative;
-  z-index: 1;
-  max-width: 1100px;
-  margin: 1.5rem auto 3rem;
-  padding: 1rem 1rem 3rem;
+/* Keep the warm gradient only in light mode */
+:root:not(.dark) .app-body {
+    background:
+        radial-gradient(circle at 12% 8%, rgba(251, 191, 36, 0.16), transparent 30%),
+        radial-gradient(circle at 88% 16%, rgba(249, 115, 22, 0.14), transparent 24%),
+        linear-gradient(180deg, #fff9f2 0%, #fff7ed 52%, #fffbf5 100%);
 }
 
+body {
+    /* Remove the hardcoded #ffffff — let .app-body tokens handle it */
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+/* ─── Shared surface styles driven by tokens ─── */
 .home-page,
 .login-page,
 .register-page,
@@ -62,12 +61,13 @@ body {
 .profile-view-page,
 .reset-request-page,
 .reset-confirm-page {
-  width: 100%;
-  background: #fffdf8;
-  border: 1px solid #f3e8cf;
-  border-radius: 1.1rem;
-  box-shadow: 0 12px 40px rgba(146, 64, 14, 0.08);
-  padding: clamp(1rem, 2.2vw, 2rem);
+    width: 100%;
+    background: var(--bg-surface);
+    border: 1px solid var(--border-color);
+    border-radius: 1.1rem;
+    box-shadow: 0 12px 40px var(--shadow-warm);
+    padding: clamp(1rem, 2.2vw, 2rem);
+    color: var(--text-primary);
 }
 
 .home-title,
@@ -80,210 +80,351 @@ body {
 .reset-request-title,
 .reset-confirm-title,
 .resources-title {
-  letter-spacing: 0.01em;
+    letter-spacing: 0.01em;
 }
 
 /* Header */
 .site-header {}
+
 .site-header-brand {}
+
 .site-header-title {}
+
 .site-header-nav {}
+
 .site-header-link {}
+
 .site-header-link-resources {}
+
 .site-header-link-profile {}
+
 .site-header-link-history {}
+
 .site-header-link-login {}
+
 .site-header-link-register {}
+
 .site-header-avatar-link {}
+
 .site-header-avatar-wrap {}
+
 .site-header-avatar-image {}
+
 .site-header-avatar-fallback {}
+
 .site-header-user-label {}
+
 .site-header-signout-button {}
 
 /* Home / scanner page */
-.home-page {
-  background-color:  white;
+.home-page {}
 
-}
 .home-title {}
+
 .home-form {}
+
 .home-url-input {}
+
 .home-dirs-toggle-label {}
+
 .home-dirs-toggle-input {}
+
 .home-submit-button {}
+
 .home-summary {}
+
 .home-summary-pass {}
+
 .home-summary-warning {}
+
 .home-summary-issue {}
+
 .home-error {}
+
 .home-loading {}
+
 .home-results {}
+
 .home-headers-card {}
+
 .home-headers-title {}
+
 .home-headers-list {}
+
 .home-headers-item {}
+
 .home-headers-item-pass {}
+
 .home-headers-item-warning {}
+
 .home-headers-item-issue {}
+
 .home-raw-toggle {}
+
 .home-raw-headers {}
+
 .home-dirs-card {}
+
 .home-dirs-title {}
+
 .home-dirs-empty {}
+
 .home-dirs-alert {}
+
 .home-dirs-list {}
+
 .home-dirs-item {}
 
-/* Login page */
-.login-page {
-  background-color: white;
-}
+.login-page {}
+
 .login-title {}
+
 .login-form {}
+
 .login-email-input {}
+
 .login-password-group {}
+
 .login-password-input {}
+
 .login-password-toggle {}
+
 .login-submit-button {}
+
 .login-forgot-wrap {}
+
 .login-forgot-link {}
+
 .login-error {}
 
 /* Register page */
 .register-page {}
+
 .register-title {}
+
 .register-form {}
+
 .register-email-input {}
+
 .register-password-rules {}
+
 .register-password-group {}
+
 .register-password-input {}
+
 .register-password-toggle {}
+
 .register-strength-wrap {}
+
 .register-strength-track {}
+
 .register-strength-fill {}
+
 .register-strength-label {}
+
 .register-confirm-group {}
+
 .register-confirm-input {}
+
 .register-confirm-toggle {}
+
 .register-submit-button {}
+
 .register-error {}
+
 .register-student-cta-wrap {}
+
 .register-student-cta {}
 
 /* Student register page */
 .student-register-page {}
+
 .student-register-title {}
+
 .student-register-subtitle {}
+
 .student-register-form {}
+
 .student-register-email-input {}
+
 .student-register-password-rules {}
+
 .student-register-password-group {}
+
 .student-register-password-input {}
+
 .student-register-password-toggle {}
+
 .student-register-strength-wrap {}
+
 .student-register-strength-track {}
+
 .student-register-strength-fill {}
+
 .student-register-strength-label {}
+
 .student-register-confirm-group {}
+
 .student-register-confirm-input {}
+
 .student-register-confirm-toggle {}
+
 .student-register-submit-button {}
+
 .student-register-error {}
+
 .student-register-normal-cta-wrap {}
+
 .student-register-normal-cta {}
 
 /* History page */
 .history-page {}
+
 .history-loading {}
+
 .history-title {}
+
 .history-error {}
+
 .history-empty {}
+
 .history-table {}
+
 .history-table-head {}
+
 .history-row {}
+
 .history-cell-url {}
+
 .history-cell-date {}
+
 .history-cell-notes {}
+
 .history-note-edit-wrap {}
+
 .history-note-input {}
+
 .history-note-save-button {}
+
 .history-note-cancel-button {}
+
 .history-note-view-wrap {}
+
 .history-note-text {}
+
 .history-note-empty-text {}
+
 .history-note-edit-button {}
+
 .history-delete-cell {}
+
 .history-delete-button {}
 
 /* Profile edit page */
 .profile-page {}
+
 .profile-title {}
+
 .profile-form {}
+
 .profile-field {}
+
 .profile-label {}
+
 .profile-display-name-input {}
+
 .profile-picture-input {}
+
 .profile-picture-preview-wrap {}
+
 .profile-picture-preview {}
+
 .profile-bio-input {}
+
 .profile-submit-button {}
+
 .profile-status {}
 
 /* Profile view page */
 .profile-view-page {}
+
 .profile-view-title {}
+
 .profile-view-avatar-wrap {}
+
 .profile-view-avatar {}
+
 .profile-view-row {}
+
 .profile-view-label {}
+
 .profile-view-value {}
+
 .profile-view-empty {}
 
 /* Reset request page */
 .reset-request-page {}
+
 .reset-request-title {}
+
 .reset-request-success {}
+
 .reset-request-form {}
+
 .reset-request-input {}
+
 .reset-request-submit-button {}
+
 .reset-request-error {}
 
 /* Reset confirm page */
 .reset-confirm-missing-token {}
+
 .reset-confirm-page {}
+
 .reset-confirm-title {}
+
 .reset-confirm-success {}
+
 .reset-confirm-form {}
+
 .reset-confirm-password-input {}
+
 .reset-confirm-confirm-input {}
+
 .reset-confirm-submit-button {}
+
 .reset-confirm-error {}
 
 /* Resources page */
 .resources-page {}
+
 .resources-title {}
+
 .resources-intro {}
+
 .resources-list {}
+
 .resources-item {}
+
 .resources-link {}
 
 /* Resources page text/link contrast */
 .resources-page {
-  background-color: #2563eb;
-  color: #ffffff;
-  border: 1px solid #1d4ed8;
-  border-radius: 1.1rem;
-  box-shadow: 0 12px 40px rgba(30, 64, 175, 0.24);
+    background-color: #2563eb;
+    color: #ffffff;
+    border: 1px solid #1d4ed8;
+    border-radius: 1.1rem;
+    box-shadow: 0 12px 40px rgba(30, 64, 175, 0.24);
 }
 
 .resources-page .resources-title,
 .resources-page .resources-intro,
 .resources-page .resources-item {
-  color: #ffffff;
+    color: #ffffff;
 }
 
 .resources-page .resources-link {
-  color: #ffffff;
-  text-decoration-color: #ffffff;
+    color: #ffffff;
+    text-decoration-color: #ffffff;
 }
