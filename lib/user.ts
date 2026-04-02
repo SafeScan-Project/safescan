@@ -1,7 +1,7 @@
 import bcrypt from 'bcryptjs';
 import { prisma } from "./prisma";
 
-export type UserRole = "USER" | "ADMIN";
+export type UserRole = "USER" | "ADMIN" | "STUDENT";
 
 export type User = {
     id: string;
@@ -17,12 +17,13 @@ export type User = {
 export async function createUser(
     email: string,
     password: string,
+    role: UserRole = "USER"
 ): Promise<User> {
     const existing = await prisma.user.findUnique({ where: { email } });
     if (existing) throw new Error("User already exists");
 
     const passwordHash = await bcrypt.hash(password, 10);
-    const user = await prisma.user.create({ data: { email, passwordHash } });
+    const user = await prisma.user.create({ data: { email, passwordHash, role } });
     return user as User;
 }
 
