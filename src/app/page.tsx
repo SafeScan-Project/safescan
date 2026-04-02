@@ -61,6 +61,42 @@ const STATUS_LABEL: Record<number, string> = {
     403: "Exists, access restricted (HTTP 403)",
 };
 
+// Notice the { summary } and { error } in the arguments
+const SummaryBar = ({ summary }: { summary: SummaryItem[] }) => (
+    <>
+        {summary.length > 0 && (
+            <div className="home-summary mt-4 flex space-x-4 text-sm bg-gray-100 p-2 rounded">
+                <span className="home-summary-pass text-green-700">
+                    <FaCheckCircle className="inline mr-1 text-green-500" aria-hidden />
+                    {summary.filter((s) => s.level === "pass").length} pass
+                </span>
+                <span className="home-summary-warning text-amber-700">
+                    <FaExclamationTriangle className="inline mr-1 text-amber-500" aria-hidden />
+                    {summary.filter((s) => s.level === "warning").length} warning
+                </span>
+                <span className="home-summary-issue text-red-700">
+                    <FaTimesCircle className="inline mr-1 text-red-500" aria-hidden />
+                    {summary.filter((s) => s.level === "issue").length} issue
+                </span>
+            </div>
+        )}
+    </>
+);
+
+const ErrorOutput = ({ error }: { error?: string | null }) => (
+    <>
+        {error && (
+            <div className="home-error mt-6 p-4 bg-red-100 border border-red-400 text-red-700 rounded">
+                {error}
+            </div>
+        )}
+    </>
+);
+
+// ============================================================================
+// Home
+// ============================================================================
+
 export default function Home() {
     const [url, setUrl] = useState("");
     const [scanDirs, setScanDirs] = useState(false);
@@ -149,38 +185,8 @@ export default function Home() {
                 </button>
             </form>
             {/* Summary bar */}
-            {summary.length > 0 && (
-                <div className="home-summary mt-4 flex space-x-4 text-sm bg-gray-100 p-2 rounded">
-                    <span className="home-summary-pass text-green-700">
-                        <FaCheckCircle
-                            className="inline mr-1 text-green-500"
-                            aria-hidden
-                        />
-                        {summary.filter((s) => s.level === "pass").length} pass
-                    </span>
-                    <span className="home-summary-warning text-amber-700">
-                        <FaExclamationTriangle
-                            className="inline mr-1 text-amber-500"
-                            aria-hidden
-                        />
-                        {summary.filter((s) => s.level === "warning").length}{" "}
-                        warning
-                    </span>
-                    <span className="home-summary-issue text-red-700">
-                        <FaTimesCircle
-                            className="inline mr-1 text-red-500"
-                            aria-hidden
-                        />
-                        {summary.filter((s) => s.level === "issue").length}{" "}
-                        issue
-                    </span>
-                </div>
-            )}
-            {error && (
-                <div className="home-error mt-6 p-4 bg-red-100 border border-red-400 text-red-700 rounded">
-                    {error}
-                </div>
-            )}
+            <SummaryBar summary={summary} />
+            <ErrorOutput error={error ?? undefined} />
             {loading && (
                 <div className="home-loading mt-6 flex items-center space-x-2 text-blue-600">
                     <svg
@@ -274,6 +280,8 @@ export default function Home() {
                             </div>
                         )}
                     </div>
+
+                    <div></div>
 
                     {/* Directory scan results */}
                     {scanDirs && (
